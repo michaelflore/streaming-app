@@ -1,0 +1,12 @@
+/node_modules/
+/dist/
+/data/
+npm-debug.log
+
+# misc
+.idea/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
