@@ -3,11 +3,15 @@ import extend from 'lodash/extend';
 
 const userByID = async (req, res, next, id) => {
     try {
-        let user = await User.findById(id)
-        if (!user)
+        let user = await User.findById(id).populate("roles", "-__v")
+        if (!user) {
             return res.status('400').json({
                 error: "User not found"
             })
+        }
+
+        // Can't mutate mongodb user from query
+        // console.log(user)
         req.profile = user
         next()
     } catch (err) {
@@ -23,7 +27,7 @@ const adminBoard = async (req, res) => {
         let users = await User.find().select(" name email updated created");
         res.json(users);
     } catch (e) {
-        res.status(400).json({ error: e})
+        res.status(400).json({ error: e })
     }
 }
 

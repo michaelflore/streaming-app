@@ -13,6 +13,9 @@ import auth from './../auth/auth-jwt';
 //API
 import { getSpecificUser } from "./api-user";
 
+//Comp
+import DeleteUser from './DeleteUser';
+
 class Profile extends Component {
 
     constructor(props) {
@@ -22,6 +25,7 @@ class Profile extends Component {
                 _id: "",
                 name: "",
                 email: "",
+                roles: [],
                 created: Date
             },
             redirectToSignin: false
@@ -69,13 +73,16 @@ class Profile extends Component {
                             <ListGroup.Item>
                                 { this.state.user.email }
                             </ListGroup.Item>
+                            <ListGroup.Item>
+                                { this.state.user.roles.map((role, i) => <p key={i}>{role.name}</p>) }
+                            </ListGroup.Item>
                             {
                                 auth.isAuthenticated().user && auth.isAuthenticated().user._id == this.state.user._id &&
                                 (<ListGroup.Item>
                                     <Link to={"/user/edit/" + this.state.user._id}>
                                         Edit
                                     </Link>
-                                    {/*<DeleteUser userId={user._id}/>*/}
+                                    <DeleteUser userId={this.state.user._id}/>
                                 </ListGroup.Item>)
                             }
                             <ListGroup.Item>

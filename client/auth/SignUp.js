@@ -8,10 +8,11 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 //Router
-import { Link } from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 //API
 import { signup } from "./api-auth";
+import auth from "./auth-jwt";
 
 class SignUp extends Component {
     constructor(props) {
@@ -79,11 +80,13 @@ class SignUp extends Component {
         }))
     }
 
-    componentDidMount() {
-        //check local storage
-    }
-
     render() {
+
+        //If they already logged in
+        if(auth.isAuthenticated()) {
+            return <Redirect to="/" />
+        }
+
         return (
             <Fragment>
                 <Card>

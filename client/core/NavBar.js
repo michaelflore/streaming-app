@@ -23,7 +23,7 @@ function isActive(history,path) {
 function NavBar({ history }) {
     return (
         <Navbar bg="dark" expand="lg">
-            <Navbar.Brand href="/">Mern Skeleton</Navbar.Brand>
+            <Navbar.Brand href="/">Mern Boilerplate</Navbar.Brand>
 
             <Nav className="ml-auto">
                 <Nav.Link href="/" style={isActive(history, "/")}>Home</Nav.Link>
@@ -37,10 +37,19 @@ function NavBar({ history }) {
                     )
                 }
                 {
+                    //The admin id and user id are the same thing
+                    auth.isAuthenticated() && auth.isAdmin() && (
+                        <Nav.Link href={"/admin/" + auth.isAuthenticated().user._id}
+                                  style={isActive(history, "/admin/" + auth.isAuthenticated().user._id)}>
+                            Admin Dashboard
+                        </Nav.Link>
+                    )
+                }
+                {
                     auth.isAuthenticated() && (
                         <Fragment>
                             <Nav.Link href={"/user/" + auth.isAuthenticated().user._id}
-                                      style={isActive(history, "/user" + auth.isAuthenticated().user._id)}>
+                                      style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
                                 My Profile
                             </Nav.Link>
 

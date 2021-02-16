@@ -70,10 +70,6 @@ class SignIn extends Component {
         })
     }
 
-    componentDidMount() {
-        //check local storage
-    }
-
     render() {
         const { from } = this.props.location.state || {
             from: { pathname: '/' }
@@ -83,6 +79,11 @@ class SignIn extends Component {
 
         if (redirectToRef) {
             return <Redirect to={from}/>
+        }
+
+        //If they already logged in
+        if(auth.isAuthenticated()) {
+            return <Redirect to="/" />
         }
 
         return (

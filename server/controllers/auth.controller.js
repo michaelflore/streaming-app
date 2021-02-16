@@ -30,7 +30,7 @@ const signin = async (req, res) => {
     try {
         let user = await User.findOne({
             "email": req.body.email
-        })
+        }).populate("roles", "-__v")
 
         if (!user) {
             return res.status('401').json({ error: "User not found" })
@@ -50,13 +50,20 @@ const signin = async (req, res) => {
             expire: new Date() + 9999
         })
 
+        let authorities = [];
+
+        for (let i = 0; i < user.roles.length; i++) {
+            authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+        }
+
         //Response with token
         return res.json({
             token,
             user: {
                 _id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                roles: authorities
             }
         })
 

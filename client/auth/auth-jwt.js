@@ -34,6 +34,15 @@ const auth = {
             document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
             console.log("In removeJWT " + data)
         })
+    },
+    isAdmin() {
+        if(sessionStorage.getItem("jwt")) {
+            let jwt = JSON.parse(sessionStorage.getItem('jwt'))
+
+            return jwt.user.roles.includes("ROLE_ADMIN")
+        } else {
+            return false
+        }
     }
 }
 
