@@ -36,13 +36,15 @@ const update = async (req, res) => {
         let user = req.profile;
         user = extend(user, req.body);
         user.updated = Date.now();
-        user.password = undefined;
-
         await user.save();
+
+        //After saving
+        user.hashed_password = undefined;
+        user.salt = undefined;
 
         res.json(user)
     } catch (e) {
-        return res.status(400).json({ error: "Error when updating."})
+        return res.status(400).json({ error: e})
     }
 }
 
@@ -50,7 +52,8 @@ const remove = async (req, res) => {
     try {
         let user = req.profile;
         let deletedUser  = await user.remove();
-        deletedUser.password = undefined;
+        deletedUser.hashed_password = undefined;
+        deletedUser.salt = undefined;
         res.json(deletedUser);
     } catch (e) {
         return res.status(400).json({ error: "Error when removing."})

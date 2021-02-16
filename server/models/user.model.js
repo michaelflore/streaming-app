@@ -15,7 +15,7 @@ const User = new Schema({
         match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         required: 'Email is required'
     },
-    password: {
+    hashed_password: {
         type: String,
         required: "Password is required"
     },
@@ -34,19 +34,21 @@ const User = new Schema({
 
 }, { collection: "users" });
 
-User.virtual('password')
-    .set(function (pw) {
-        //methods
-        this.password = this.encryptPassword(pw)
+User
+    .virtual('password')
+    .set(function(password) {
+        this._password = password
         this.salt = this.makeSalt()
+        this.hashed_password = this.encryptPassword(password)
     })
-    .get(function () {
-        return this.password
+    .get(function() {
+        return this._password
     })
+
 
 User.methods = {
     authenticate: function(plainText) {
-        return this.encryptPassword(plainText) === this.password
+        return this.encryptPassword(plainText) === this.hashed_password
     },
     encryptPassword: function(password) {
         if (!password) return ''

@@ -13,11 +13,14 @@ const signup = async (req, res) => {
         user.roles = [role._id];
 
         await user.save()
+
         return res.status(200).json({
             message: "Successfully signed up!"
         })
     } catch (err) {
-        return res.status(400).json({
+
+        //Return the error
+        return res.status(401).json({
             error: "Could not sign up!"
         })
     }
@@ -47,6 +50,7 @@ const signin = async (req, res) => {
             expire: new Date() + 9999
         })
 
+        //Response with token
         return res.json({
             token,
             user: {
@@ -57,7 +61,6 @@ const signin = async (req, res) => {
         })
 
     } catch (err) {
-
         return res.status('401').json({
             error: "Could not sign in"
         })
@@ -78,4 +81,24 @@ const requireSignin = expressJwt({
     algorithms: ['HS256']
 })
 
-export { signup, signin, signout, requireSignin };
+const hasAuthorization = async (req, res, next) => {
+    const authorized = req.profile && req.auth && req.profile._id == req.auth._id
+
+    let roles = await Role.find({ _id: { $in: req.profile.roles } } )
+    console.log(roles)
+    for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "admin") {
+            next();
+            return;
+        }
+    }
+
+    if (!(authorized)) {
+        return res.status('403').json({
+            error: "User is not authorized"
+        })
+    }
+    next()
+}
+
+export { signup, signin, signout, requireSignin, hasAuthorization };
