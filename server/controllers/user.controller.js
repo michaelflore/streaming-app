@@ -1,6 +1,11 @@
 import User from './../models/user.model';
 import extend from 'lodash/extend';
 
+import formidable from 'formidable';
+import fs from 'fs';
+
+import profileImage from './../../client/assets/images/profile-pic.png'
+
 const userByID = async (req, res, next, id) => {
     try {
         let user = await User.findById(id).populate("roles", "-__v")
@@ -36,20 +41,38 @@ const read = (req, res) => {
 }
 
 const update = async (req, res) => {
-    try {
-        let user = req.profile;
-        user = extend(user, req.body);
-        user.updated = Date.now();
-        await user.save();
+    let form = new formidable.IncomingForm()
+    form.keepExtensions = true
 
-        //After saving
-        user.hashed_password = undefined;
-        user.salt = undefined;
+    form.parse(req, async (err, fields, files) => {
+        if(err) {
+            return res.status(400).json({
+                error: "Photo could not be uploaded"
+            })
+        }
 
-        res.json(user)
-    } catch (e) {
-        return res.status(400).json({ error: e})
-    }
+        let user = req.profile
+        user = extend(user, fields)
+        user.updated = Date.now()
+
+        if(files.photo) {
+            user.photo.data = fs.readFileSync(files.photo.path)
+            user.photo.contentType = files.photo.type
+        }
+
+        try {
+            await user.save()
+
+            //After saving
+            user.hashed_password = undefined
+            user.salt = undefined
+            res.json(user)
+        } catch (e) {
+            return res.status(400).json({
+                error: "Email is Already in Use!"
+            })
+        }
+    })
 }
 
 const remove = async (req, res) => {
@@ -64,4 +87,18 @@ const remove = async (req, res) => {
     }
 }
 
-export { userByID, adminBoard, read, update, remove };
+
+//Profile picture
+const photo = (req, res, next) => {
+    if(req.profile.photo.data){
+        res.set("Content-Type", req.profile.photo.contentType)
+        return res.send(req.profile.photo.data)
+    }
+    next()
+}
+
+const defaultPhoto = (req, res) => {
+    return res.sendFile(process.cwd() + profileImage)
+}
+
+export { userByID, adminBoard, read, update, remove, photo, defaultPhoto };

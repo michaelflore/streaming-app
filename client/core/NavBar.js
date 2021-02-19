@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 
 //Styles
 import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import Button from "react-bootstrap/Button";
 
@@ -47,16 +48,21 @@ function NavBar({ history }) {
                 }
                 {
                     auth.isAuthenticated() && (
-                        <Fragment>
-                            <Nav.Link href={"/user/" + auth.isAuthenticated().user._id}
+                        <NavDropdown title={auth.isAuthenticated().user.name} id="nav-dropdown">
+
+                            <NavDropdown.Item href={"/user/" + auth.isAuthenticated().user._id}
                                       style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
                                 My Profile
-                            </Nav.Link>
+                            </NavDropdown.Item>
 
-                            <Button variant="warning" onClick={() => auth.removeJWT(() => history.push('/')) }>
-                                Sign Out
-                            </Button>
-                        </Fragment>
+                            <NavDropdown.Divider />
+
+                            <NavDropdown.Item>
+                                <Button variant="danger" onClick={() => auth.removeJWT(() => history.push('/')) }>
+                                    Sign Out
+                                </Button>
+                            </NavDropdown.Item>
+                        </NavDropdown>
                     )
                 }
             </Nav>

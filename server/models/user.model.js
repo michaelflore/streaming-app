@@ -30,7 +30,15 @@ const User = new Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Role"
         }
-    ]
+    ],
+    about: {
+        type: String,
+        trim: true
+    },
+    photo: {
+        data: Buffer,
+        contentType: String
+    }
 
 }, { collection: "users" });
 

@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 //Styles
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.scss';
 
 render(
     <BrowserRouter>

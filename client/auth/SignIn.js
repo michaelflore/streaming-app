@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Jumbotron from "react-bootstrap/Jumbotron";
 
 //API
 import { signin } from "./api-auth";
@@ -87,27 +89,29 @@ class SignIn extends Component {
         }
 
         return (
-            <Card>
-                <Card.Title>Sign In</Card.Title>
-                <Card.Body>
-                    { this.state.values.error && (<Alert variant="danger">{this.state.values.error}</Alert>)}
-                    <Form>
-                        <Form.Group controlId="formGroupEmail">
-                            <Form.Label>Email Address:</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" value={this.state.values.email}
-                                          onChange={e => this.handleChange('email', e)} />
-                        </Form.Group>
-                        <Form.Group controlId="formGroupPassword">
-                            <Form.Label>Password:</Form.Label>
-                            <Form.Control type="password" placeholder="Enter password" value={this.state.values.password}
-                                          onChange={e => this.handleChange('password', e)} />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" onClick={this.handleSubmit}>
-                            Sign In
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+            <Container>
+                <Card>
+                    <Card.Header>Sign In</Card.Header>
+                    <Card.Body>
+                        { this.state.values.error && (<Alert variant="danger">{this.state.values.error}</Alert>)}
+                        <Form>
+                            <Form.Group controlId="formGroupEmail">
+                                <Form.Label>Email Address:</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" value={this.state.values.email}
+                                              onChange={e => this.handleChange('email', e)} />
+                            </Form.Group>
+                            <Form.Group controlId="formGroupPassword">
+                                <Form.Label>Password:</Form.Label>
+                                <Form.Control type="password" placeholder="Enter password" value={this.state.values.password}
+                                              onChange={e => this.handleChange('password', e)} />
+                            </Form.Group>
+                            <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+                                Sign In
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            </Container>
         );
     }
 }

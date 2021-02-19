@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Container from "react-bootstrap/Container";
 
 //Router
 import {Link, Redirect} from "react-router-dom";
@@ -88,9 +89,9 @@ class SignUp extends Component {
         }
 
         return (
-            <Fragment>
+            <Container>
                 <Card>
-                    <Card.Title>Sign Up</Card.Title>
+                    <Card.Header>Sign Up</Card.Header>
                     <Card.Body>
                         { this.state.values.error && (<Alert variant="danger">{this.state.values.error}</Alert>)}
                         <Form>
@@ -128,7 +129,7 @@ class SignUp extends Component {
                         </Link>
                     </Modal.Footer>
                 </Modal>
-            </Fragment>
+            </Container>
         );
     }
 }

@@ -1,10 +1,17 @@
 import React from 'react';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Landing() {
     return (
-        <div>
-            Landing Page!
-        </div>
+        <Container fluid>
+            <Row>
+                <Col>
+                    Welcome to MERN Boilerplate!
+                </Col>
+            </Row>
+        </Container>
     );
 }
 

@@ -3,6 +3,9 @@ import React, {Component} from 'react';
 //Styles
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 //Router
 import {Link, Redirect} from "react-router-dom";
@@ -15,6 +18,7 @@ import { getSpecificUser } from "./api-user";
 
 //Comp
 import DeleteUser from './DeleteUser';
+import Button from "react-bootstrap/Button";
 
 class Profile extends Component {
 
@@ -25,6 +29,7 @@ class Profile extends Component {
                 _id: "",
                 name: "",
                 email: "",
+                about: "",
                 roles: [],
                 created: Date
             },
@@ -62,35 +67,54 @@ class Profile extends Component {
         }
 
         return (
-            <Card style={{ width: '30rem' }}>
-                <Card.Img variant="top" src="holder.js/100px180" />
-                <Card.Body>
-                    <Card.Title>Profile</Card.Title>
-                        <ListGroup>
-                            <ListGroup.Item>
-                                { this.state.user.name }
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                { this.state.user.email }
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                { this.state.user.roles.map((role, i) => <p key={i}>{role.name}</p>) }
-                            </ListGroup.Item>
-                            {
-                                auth.isAuthenticated().user && auth.isAuthenticated().user._id == this.state.user._id &&
-                                (<ListGroup.Item>
-                                    <Link to={"/user/edit/" + this.state.user._id}>
-                                        Edit
-                                    </Link>
-                                    <DeleteUser userId={this.state.user._id}/>
-                                </ListGroup.Item>)
-                            }
-                            <ListGroup.Item>
-                                { "Joined: " + (new Date(this.state.user.created)).toDateString() }
-                            </ListGroup.Item>
-                        </ListGroup>
-                </Card.Body>
-            </Card>
+            <Container fluid>
+                <Row>
+                    <Col>
+                        <Card style={{ width: '30rem' }}>
+                            <Card.Img variant="top" src={
+                                this.state.user._id
+                                    ? `/api/users/photo/${this.state.user._id}?${new Date().getTime()}`
+                                    : '/api/users/defaultphoto'
+                            } />
+                            <Card.Body>
+                                <Card.Title>Profile</Card.Title>
+                                <ListGroup>
+                                    <ListGroup.Item>
+                                        Name: { this.state.user.name }
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        Email: { this.state.user.email }
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>
+                                        About: { this.state.user.about }
+                                    </ListGroup.Item>
+                                    {
+                                        auth.isAuthenticated().user && auth.isAuthenticated().user._id == this.state.user._id &&
+                                        (
+                                            <ListGroup.Item className="d-flex justify-content-between">
+                                            <Link to={"/user/edit/" + this.state.user._id}>
+                                                <Button>Edit</Button>
+                                            </Link>
+                                            <DeleteUser userId={this.state.user._id}/>
+                                            </ListGroup.Item>
+                                        )
+                                    }
+                                    <ListGroup.Item>
+                                        { "Joined: " + (new Date(this.state.user.created)).toDateString() }
+                                    </ListGroup.Item>
+                                    <ListGroup.Item className="d-flex">
+                                        Roles: {
+                                            this.state.user.roles.map((role, i) => {
+                                                return <p key={i} className="mx-1 mb-0">{role.name}</p>
+                                            })
+                                        }
+                                    </ListGroup.Item>
+                                </ListGroup>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

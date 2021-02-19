@@ -1,11 +1,16 @@
 import express from 'express';
 
 import {hasAuthorization, requireSignin} from './../controllers/auth.controller';
-import { userByID, read, update, remove, adminBoard } from './../controllers/user.controller';
+import { userByID, read, update, remove, adminBoard, photo, defaultPhoto } from './../controllers/user.controller';
 
 import { isAdmin } from './../middleware/verifySignup';
 
 const router = express.Router()
+
+router.route('/api/users/photo/:userId')
+    .get(photo, defaultPhoto)
+router.route('/api/users/defaultphoto')
+    .get(defaultPhoto)
 
 router.route('/api/users/:userId')
     //Specific User

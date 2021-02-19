@@ -43,6 +43,15 @@ const auth = {
         } else {
             return false
         }
+    },
+    updatedNameEmail(updateObj) {
+        let prevData = JSON.parse(sessionStorage.getItem('jwt'));
+
+        Object.keys(updateObj).forEach((value) => {
+            prevData.user[value] = updateObj[value]
+        });
+
+        sessionStorage.setItem('jwt', JSON.stringify(prevData));
     }
 }
 

@@ -12,6 +12,7 @@ import Button from "react-bootstrap/Button";
 //API
 import {getAdminBoard} from "./api-admin";
 import auth from "../auth/auth-jwt";
+import Container from "react-bootstrap/Container";
 
 class AdminBoard extends Component {
 
@@ -46,8 +47,8 @@ class AdminBoard extends Component {
     render() {
 
         return (
-            <Card>
-                <Jumbotron>
+            <Container fluid>
+                <Jumbotron className="mt-1">
                     <h1>All Users</h1>
                 </Jumbotron>
                 <ListGroup>
@@ -56,16 +57,21 @@ class AdminBoard extends Component {
                             return (
                                 <Link to={"/user/" + user._id} key={i}>
                                     <ListGroup.Item>
-                                        <Card.Img src="holder.js/100px180" title="Avatar"></Card.Img>
-                                        <Card.Title>{user.name}</Card.Title>
-                                    {/*  Icon  */}
+                                        <Card style={{ width: '10rem', flexDirection: 'row' }}>
+                                            <Card.Img src={
+                                                user._id ? `/api/users/photo/${user._id}?${new Date().getTime()}` : '/api/users/defaultphoto'
+                                            } title="Avatar" />
+                                            <Card.Body>
+                                                <Card.Title>{user.name}</Card.Title>
+                                            </Card.Body>
+                                        </Card>
                                     </ListGroup.Item>
                                 </Link>
                             )
                         })
                     }
                 </ListGroup>
-            </Card>
+            </Container>
         );
     }
 }

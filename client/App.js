@@ -19,6 +19,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import AdminBoard from "./admin/AdminBoard";
 import ProtectedRoute from "./admin/ProtectedRoute";
 
+
 const App = () => {
     //NavBar will be on ALL pages of the app
     return (

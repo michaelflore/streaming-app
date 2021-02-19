@@ -1,0 +1,16 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+a#nav-dropdown.dropdown-toggle.nav-link {
+  color: #ffffff;
+  width: 10rem;
+  text-align: center;
+}
+
+div.dropdown-menu.show {
+  background-color: #343a40;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background-color: inherit;
+}
