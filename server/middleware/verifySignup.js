@@ -44,13 +44,13 @@ const isAdmin = async (req, res, next, id) => {
     let roles = await Role.find({ _id: { $in: user.roles} } )
 // console.log(roles)
     for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "admin") {
+        if (roles[i].name === "Admin") {
             next();
             return;
         }
     }
 
-    res.status(403).json({message: "Require Admin Role!"});
+    res.status(403).json({message: "Requires Admin Role!"});
 }
 
 export { checkDuplicateEmail, checkRolesExisted, isAdmin };

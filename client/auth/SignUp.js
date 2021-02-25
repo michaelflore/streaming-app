@@ -60,14 +60,16 @@ class SignUp extends Component {
                 }))
             } else {
 
-                //When its a successful sign up the modal opens
-                this.setState(prevState => ({
+                //When its a successful sign up the modal opens and form resets
+                this.setState({
                     values: {
-                        ...prevState.values,
+                        name: "",
+                        email: "",
+                        password: "",
                         open: true,
                         error: ""
                     }
-                }))
+                })
             }
         })
     }

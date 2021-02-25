@@ -9930,17 +9930,20 @@ h3 {
 }
 a#nav-dropdown.dropdown-toggle.nav-link {
   color: #ffffff;
-  width: 10rem;
   text-align: center;
 }
 
 div.dropdown-menu.show {
   background-color: #343a40;
-  width: 100%;
+  min-width: 100%;
 }
 
 .dropdown-item:hover {
   background-color: inherit;
+}
+
+.navbar.navbar-expand-lg.navbar-light.bg-dark {
+  padding: 0.5rem 9rem 0.5rem 2rem;
 }
 
 /*# sourceMappingURL=App.css.map */

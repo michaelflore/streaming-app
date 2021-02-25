@@ -9,7 +9,7 @@ const signup = async (req, res) => {
     const user = new User(req.body)
     try {
 
-        let role = await Role.findOne({ name: "user "});
+        let role = await Role.findOne({ name: "User" });
         user.roles = [role._id];
 
         await user.save()
@@ -94,7 +94,7 @@ const hasAuthorization = async (req, res, next) => {
     let roles = await Role.find({ _id: { $in: req.profile.roles } } )
     console.log(roles)
     for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "admin") {
+        if (roles[i].name === "Admin") {
             next();
             return;
         }
