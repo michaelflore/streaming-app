@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader';
 
 //core
 import NavBar from './core/NavBar';
-import Landing from './core/Landing';
+import Home from './core/Home';
 
 //user
 import Profile from './user/Profile';
@@ -19,6 +19,9 @@ import PrivateRoute from "./auth/PrivateRoute";
 import AdminBoard from "./admin/AdminBoard";
 import ProtectedRoute from "./admin/ProtectedRoute";
 
+//video
+import NewMedia from "./media/NewMedia";
+
 
 const App = () => {
     //NavBar will be on ALL pages of the app
@@ -26,12 +29,14 @@ const App = () => {
         <div>
             <NavBar />
             <Switch>
-                <Route exact path="/" component={Landing} />
+                <Route exact path="/" component={Home} />
                 <Route path="/signin" component={SignIn} />
                 <Route path="/signup" component={SignUp} />
                 <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
                 <Route path="/user/:userId" render={props => (<Profile {...props} />) }/>
                 <ProtectedRoute path="/admin/:adminId" component={AdminBoard} />
+
+                <PrivateRoute path="/media/new" component={NewMedia}/>
             </Switch>
         </div>
     )

@@ -109,7 +109,7 @@ class SignUp extends Component {
                             </Form.Group>
                             <Form.Group controlId="formGroupPassword">
                                 <Form.Label>Password: </Form.Label>
-                                <Form.Control type="text" placeholder="Your email..." value={this.state.values.password}
+                                <Form.Control type="text" placeholder="Your password..." value={this.state.values.password}
                                               onChange={e => this.handleChange("password", e)} />
                             </Form.Group>
                             <Button variant="primary" type="submit" onClick={this.handleSubmit}>

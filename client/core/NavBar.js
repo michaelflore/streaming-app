@@ -48,21 +48,27 @@ function NavBar({ history }) {
                 }
                 {
                     auth.isAuthenticated() && (
-                        <NavDropdown title={auth.isAuthenticated().user.name} id="nav-dropdown">
+                        <Fragment>
+                            <Nav.Link href={"/media/new"}
+                                      style={isActive(history, "/media/new")}>
+                                Add New
+                            </Nav.Link>
+                            <NavDropdown title={auth.isAuthenticated().user.name} id="nav-dropdown">
 
-                            <NavDropdown.Item href={"/user/" + auth.isAuthenticated().user._id}
-                                      style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
-                                My Profile
-                            </NavDropdown.Item>
+                                <NavDropdown.Item href={"/user/" + auth.isAuthenticated().user._id}
+                                                  style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
+                                    My Profile
+                                </NavDropdown.Item>
 
-                            <NavDropdown.Divider />
+                                <NavDropdown.Divider />
 
-                            <NavDropdown.Item>
-                                <Button variant="danger" onClick={() => auth.removeJWT(() => history.push('/')) }>
-                                    Sign Out
-                                </Button>
-                            </NavDropdown.Item>
-                        </NavDropdown>
+                                <NavDropdown.Item>
+                                    <Button variant="danger" onClick={() => auth.removeJWT(() => history.push('/')) }>
+                                        Sign Out
+                                    </Button>
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </Fragment>
                     )
                 }
             </Nav>
