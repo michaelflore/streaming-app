@@ -15,4 +15,37 @@ const create = async (params, credentials, media) => {
     }
 }
 
-export { create };
+const listPopular = async (signal) => {
+    try {
+        let response = await fetch('/api/media/popular', {
+            method: 'GET',
+            signal: signal,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await response.json()
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+const listByUser = async (params) => {
+    try {
+        let response = await fetch('/api/media/by/' + params.userId, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await response.json()
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export { create, listPopular, listByUser };

@@ -15,10 +15,12 @@ import auth from './../auth/auth-jwt';
 
 //API
 import { getSpecificUser } from "./api-user";
+import { listByUser } from "./../media/api-media";
 
 //Comp
 import DeleteUser from './DeleteUser';
 import Button from "react-bootstrap/Button";
+import MediaList from "../media/MediaList";
 
 class Profile extends Component {
 
@@ -33,6 +35,7 @@ class Profile extends Component {
                 roles: [],
                 created: Date
             },
+            media: [],
             redirectToSignin: false
         }
     }
@@ -53,6 +56,17 @@ class Profile extends Component {
                         this.setState({ user: data })
                     }
                 })
+
+            listByUser({ userId: this.props.match.params.userId }).then(data => {
+                if(data && data.error) {
+                    this.setState({ redirectToSignIn: true })
+                } else {
+                    this.setState(state => ({
+                        ...state,
+                        media: data
+                    }))
+                }
+            })
         }
     }
 
@@ -112,6 +126,9 @@ class Profile extends Component {
                                 </ListGroup>
                             </Card.Body>
                         </Card>
+                    </Col>
+                    <Col>
+                        <MediaList media={this.state.media} />
                     </Col>
                 </Row>
             </Container>
